@@ -51,6 +51,15 @@ const routes: Array<RouteRecordRaw> = [
                     breadcrumbs: ["Website", "Setting"],
                 },
             },
+            {
+                path: "/dashboard/tiket",
+                name: "dashboard.tiket",
+                component: () => import("@/pages/dashboard/tiket/Index.vue"),
+                meta: {
+                    pageTitle: "Website Tiket",
+                    breadcrumbs: ["Website", "Tiket"],
+                },
+            },
 
             // MASTER
             {
