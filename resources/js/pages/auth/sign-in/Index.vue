@@ -2,12 +2,12 @@
     <!--begin::Form-->
     <div class="w-100">
         <!--begin::Heading-->
-        <div class="text-center mb-10">
+        <div class="text-center mb-5">
             <router-link to="/">
                 <img
                     :src="setting?.logo"
                     :alt="setting?.app"
-                    class="w-200px mb-8"
+                    class="w-250px h-220px mb-2"
                 />
             </router-link>
             <!--begin::Title-->
@@ -27,9 +27,9 @@
                     >Email</a
                 >
             </li>
-            <!-- <li class="nav-item">
+            <!--<li class="nav-item">
                 <a class="nav-link" data-bs-toggle="tab" href="#with-phone">{{ $t('login.telepon') }}</a>
-            </li> -->
+            </li>-->
         </ul>
 
         <div class="tab-content" id="myTabContent">
@@ -45,13 +45,13 @@
         <div class="border-bottom border-gray-300 w-100 mt-5 mb-10"></div>
 
         <!--begin::Link-->
-        <!-- <div class="text-gray-400 fw-semobold fs-4 text-center">
-            {{ $t('login.daftar_label') }}
+        <div class="text-gray-400 fw-semobold fs-4 text-center">
+            {{ $t('Belum mempunyai akun?') }}
 
-            <router-link to="/auth/sign-up" class="link-primary fw-bold">
-                {{ $t('login.daftar') }}
+            <router-link to="sign-up" class="link-primary fw-bold">
+                {{ $t('Daftar') }}
             </router-link>
-        </div> -->
+        </div>
         <!--end::Link-->
     </div>
     <!--end::Form-->

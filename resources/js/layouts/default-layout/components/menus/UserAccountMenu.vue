@@ -91,8 +91,8 @@ const currentLangugeLocale = computed(() => {
                     <img
                         alt="Logo"
                         :src="
-                            getAssetPath(
-                                store.user.photo ?? 'media/avatars/300-3.jpg'
+                            (
+                            '/media/avatars/profz.png'
                             )
                         "
                     />

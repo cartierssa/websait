@@ -11,7 +11,7 @@ class CreateTiketsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up() 
     {
         Schema::create('tikets', function (Blueprint $table) {
             $table->id(); // Auto-increment id
