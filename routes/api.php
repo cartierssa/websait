@@ -1,9 +1,9 @@
 <?php
-
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TiketController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,10 +24,12 @@ Route::middleware(['auth', 'json'])->prefix('auth')->group(function () {
     Route::get('me', [AuthController::class, 'me']);
 });
 
+// Setting Routes
 Route::prefix('setting')->group(function () {
     Route::get('', [SettingController::class, 'index']);
 });
 
+// Routes for users and roles
 Route::middleware(['auth', 'verified', 'json'])->group(function () {
     Route::prefix('setting')->middleware('can:setting')->group(function () {
         Route::post('', [SettingController::class, 'update']);
@@ -50,4 +52,11 @@ Route::middleware(['auth', 'verified', 'json'])->group(function () {
                 ->except(['index', 'store']);
         });
     });
+
+    // Tiket Routes
+    Route::prefix('tiket')->group(function () {
+        Route::post('', [TiketController::class, 'store']); // Store a new tiket
+        Route::get('', [TiketController::class, 'index']); // Get list of tikets
+    }); // Menghapus karakter aneh di sini
 });
+

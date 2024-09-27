@@ -7,14 +7,14 @@
             <div class="mb-10 text-center">
                 <router-link to="/">
                     <img
-                        :src="setting?.logo_depan"
+                        :src="setting?.logo"
                         alt="Logo Jombang"
-                        class="w-100px mb-8"
+                        class="w-250px mb-4"
                     />
                 </router-link>
                 <!--begin::Title-->
-                <h1 class="text-dark mb-3">
-                    Daftar Akun <span class="text-primary">SI-LAJANG</span>
+                <h1 class="mb-3">
+                    Daftar Akun <span class="text-primary">CUS-Ticket</span>
                 </h1>
                 <!--end::Title-->
             </div>
@@ -80,14 +80,6 @@
                     <!--end::Step 2-->
 
                     <!--begin::Step 3-->
-                    <div data-kt-stepper-element="content">
-                        <VerifyPhone
-                            :formData="formData"
-                            @on-complete="handleOtpPhone"
-                            @send-otp="sendOtpPhone"
-                        ></VerifyPhone>
-                    </div>
-                    <!--end::Step 3-->
 
                     <!--begin::Step 4-->
                     <div data-kt-stepper-element="content">
@@ -171,7 +163,7 @@
             <div class="text-gray-400 fw-semobold fs-4 text-center">
                 Sudah memiliki akun?
 
-                <router-link to="/auth/sign-in" class="link-primary fw-bold">
+                <router-link to="sign-in" class="link-primary fw-bold">
                     Masuk
                 </router-link>
             </div>

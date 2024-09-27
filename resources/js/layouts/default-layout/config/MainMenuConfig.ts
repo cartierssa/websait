@@ -50,6 +50,12 @@ const MainMenuConfig: Array<MenuItem> = [
                 name: "setting",
                 keenthemesIcon: "setting-2",
             },
+            {
+                heading: "Tiket",
+                route: "/dashboard/tiket",
+                name: "tiket",
+                keenthemesIcon: "element-11",
+            },
         ],
     },
 ];

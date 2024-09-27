@@ -51,6 +51,15 @@ const routes: Array<RouteRecordRaw> = [
                     breadcrumbs: ["Website", "Setting"],
                 },
             },
+            {
+                path: "/dashboard/tiket",
+                name: "dashboard.tiket",
+                component: () => import("@/pages/dashboard/tiket/Index.vue"),
+                meta: {
+                    pageTitle: "Website Tiket",
+                    breadcrumbs: ["Website", "Tiket"],
+                },
+            },
 
             // MASTER
             {
@@ -84,7 +93,16 @@ const routes: Array<RouteRecordRaw> = [
                 name: "sign-in",
                 component: () => import("@/pages/auth/sign-in/Index.vue"),
                 meta: {
-                    pageTitle: "Sign In",
+                    pageTitle: "Masuk",
+                    middleware: "guest",
+                },
+            },
+            {
+                path: "/sign-up",
+                name: "sign-up",
+                component: () => import("@/pages/auth/sign-up/Index.vue"),
+                meta: {
+                    pageTitle: "Daftar",
                     middleware: "guest",
                 },
             },
