@@ -39,8 +39,8 @@
                 <!--end::Visibility toggle-->
             </div>
             <div class="fv-plugins-message-container">
-                <div class="fv-help-block">
-                    <ErrorMessage name="password_confirmation" />
+                <div class="fv-help-block" v-if="!isPasswordMatch">
+                    <span style="color: red;">Password dan konfirmasi password tidak cocok!</span>
                 </div>
             </div>
         </div>
@@ -49,8 +49,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
+import { defineComponent, ref, watch } from 'vue'
 
 export default defineComponent({
     name: 'Password',
@@ -61,35 +60,33 @@ export default defineComponent({
         },
     },
     setup(props) {
+        const isPasswordMatch = ref(true);
+
+        // Watch changes on password and password confirmation
+        watch(() => [props.formData.password, props.formData.password_confirmation], () => {
+            isPasswordMatch.value = props.formData.password === props.formData.password_confirmation;
+        });
+
         return {
             formData: props.formData,
+            isPasswordMatch,
         }
     },
     methods: {
         togglePassword(ev) {
-            const type = document.querySelector("[name=password]").type;
-
-            if (type === 'password') {
-                document.querySelector("[name=password]").type = 'text';
-                ev.target.classList.add("bi-eye");
-                ev.target.classList.remove("bi-eye-slash");
-            } else {
-                document.querySelector("[name=password]").type = 'password';
-                ev.target.classList.remove("bi-eye");
-                ev.target.classList.add("bi-eye-slash");
+            const passwordInput = document.querySelector("[name=password]") as HTMLInputElement;
+            if (passwordInput) {
+                passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+                ev.target.classList.toggle("bi-eye");
+                ev.target.classList.toggle("bi-eye-slash");
             }
         },
         toggleConfirmPassword(ev) {
-            const type = document.querySelector("[name=password_confirmation]").type;
-
-            if (type === 'password') {
-                document.querySelector("[name=password_confirmation]").type = 'text';
-                ev.target.classList.add("bi-eye");
-                ev.target.classList.remove("bi-eye-slash");
-            } else {
-                document.querySelector("[name=password_confirmation]").type = 'password';
-                ev.target.classList.remove("bi-eye");
-                ev.target.classList.add("bi-eye-slash");
+            const confirmPasswordInput = document.querySelector("[name=password_confirmation]") as HTMLInputElement;
+            if (confirmPasswordInput) {
+                confirmPasswordInput.type = confirmPasswordInput.type === 'password' ? 'text' : 'password';
+                ev.target.classList.toggle("bi-eye");
+                ev.target.classList.toggle("bi-eye-slash");
             }
         }
     }
