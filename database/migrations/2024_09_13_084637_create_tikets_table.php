@@ -11,13 +11,18 @@ class CreateTiketsTable extends Migration
      *
      * @return void
      */
-    public function up() 
+    public function up()
     {
         Schema::create('tikets', function (Blueprint $table) {
-            $table->id(); // Auto-increment id
-            $table->string('judul'); // Kolom untuk judul tiket
-            $table->text('deskripsi'); // Kolom untuk deskripsi tiket
-            $table->string('status'); // Kolom untuk status tiket
+            $table->id(); // Kolom ID
+            $table->uuid('uuid')->unique(); // Menambahkan kolom UUID
+            $table->string('name'); // Kolom Nama
+            $table->string('place'); // Kolom Tempat
+            $table->datetime('datetime'); // Kolom Waktu
+            $table->enum('status', ['available', 'unavailable']); // Kolom Status
+            $table->integer('quantity'); // Kolom Jumlah
+            $table->decimal('price', 10, 2); // Kolom Harga
+            $table->string('image')->nullable(); // Kolom Gambar (nullable)
             $table->timestamps(); // Kolom created_at dan updated_at
         });
     }

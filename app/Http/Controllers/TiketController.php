@@ -3,97 +3,115 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tiket;
+use App\Http\Requests\StoreTiketRequest;
+use App\Http\Requests\UpdateTiketRequest;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class TiketController extends Controller
 {
-    public function index()
+    /**
+     * Display a listing of the resource.
+     */
+    public function get(Request $request)
     {
-        // Mengambil semua data tiket dari database
-        $tikets = Tiket::all();
-        return response()->json($tikets);
-    }
-
-    public function show($id)
-    {
-        // Mengambil satu tiket berdasarkan ID
-        $tiket = Tiket::findOrFail($id);
-        return response()->json($tiket);
-    }
-
-    public function store(Request $request)
-    {
-        // Validasi input dari form
-        $request->validate([
-            'judul' => 'required',
-            'deskripsi' => 'required',
-            'status' => 'required|in:open,closed,in_progress', // Hanya menerima status yang valid
-            'lampiran' => 'nullable|file|mimes:jpeg,png,jpg,pdf,doc,docx|max:10240', // Lampiran opsional
+        return response()->json([
+            'success' => true,
+            'data' => Tiket::when($request->status, function (Builder $query, string $status) {
+                $query->where('status', $status);
+            })->get()
         ]);
+    }
 
-        // Menyimpan lampiran jika ada
-        $data = $request->all();
-        if ($request->hasFile('lampiran')) {
-            $data['lampiran'] = '/storage/' . $request->file('lampiran')->store('tikets', 'public');
+    /**
+     * Display a paginated list of the resource.
+     */
+    public function index(Request $request)
+    {
+        $per = $request->per ?? 10;
+        $page = $request->page ? $request->page - 1 : 0;
+
+        DB::statement('set @no=0+' . $page * $per);
+        $data = Tiket::when($request->search, function (Builder $query, string $search) {
+            $query->where('name', 'like', "%$search%")
+                ->orWhere('place', 'like', "%$search%")
+                ->orWhere('datetime', 'like', "%$search%");
+        })->latest()->paginate($per, ['*', DB::raw('@no := @no + 1 AS no')]);
+
+        return response()->json($data);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreTiketRequest $request)
+    {
+        $validatedData = $request->validated();
+
+        // Jika ada file gambar, simpan
+        if ($request->hasFile('image')) {
+            $validatedData['image'] = $request->file('image')->store('tikets', 'public');
         }
 
-        // Membuat tiket baru
-        $tiket = Tiket::create($data);
+        $tiket = Tiket::create($validatedData);
 
         return response()->json([
-            'message' => 'Tiket berhasil dibuat',
-            'data' => $tiket
+            'success' => true,
+            'tiket' => $tiket
         ]);
     }
 
-    public function update(Request $request, $id)
-    {
-        // Validasi data
-        $request->validate([
-            'judul' => 'required',
-            'deskripsi' => 'required',
-            'status' => 'required|in:open,closed,in_progress',
-            //'lampiran' => 'nullable|file|mimes:jpeg,png,jpg,pdf,doc,docx|max:10240',
-        ]);
 
-        // Mengambil tiket yang akan di-update
-        $tiket = Tiket::findOrFail($id);
+    /**
+     * Display the specified resource.
+     */
+    public function show(Tiket $tiket)
+{
+    return response()->json(['success' => true, 'tiket' => $tiket]);
+}
 
-        // Menghapus lampiran lama jika ada yang baru diupload
-        if ($request->hasFile('lampiran')) {
-            if ($tiket->lampiran) {
-                $oldFile = str_replace('/storage/', '', $tiket->lampiran);
-                Storage::disk('public')->delete($oldFile);
-            }
-            $data['lampiran'] = '/storage/' . $request->file('lampiran')->store('tikets', 'public');
-        }
 
-        // Mengupdate data tiket
-        $tiket->update($request->all());
 
-        return response()->json([
-            'message' => 'Tiket berhasil diupdate',
-            'data' => $tiket
-        ]);
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateTiketRequest $request, Tiket $tiket)
+{
+    $validatedData = $request->validated();
+
+    // Jika ada file gambar, simpan dan perbarui path gambar
+    if ($request->hasFile('image')) {
+        $validatedData['image'] = $request->file('image')->store('tikets', 'public');
     }
 
-    public function destroy($id)
-    {
-        // Menghapus tiket berdasarkan ID
-        $tiket = Tiket::findOrFail($id);
+    // Update data tiket
+    $tiket->update($validatedData);
 
-        // Hapus lampiran jika ada
-        if ($tiket->lampiran) {
-            $filePath = str_replace('/storage/', '', $tiket->lampiran);
-            Storage::disk('public')->delete($filePath);
+    return response()->json([
+        'success' => true,
+        'message' => 'Tiket berhasil diupdate',
+        'tiket' => $tiket
+    ]);
+}
+
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Tiket $tiket)
+    {
+        if ($tiket->image) {
+            Storage::disk('public')->delete($tiket->image);
         }
 
-        // Hapus data tiket
         $tiket->delete();
 
         return response()->json([
-            'message' => 'Tiket berhasil dihapus'
+            'success' => true
         ]);
     }
 }
+

@@ -10,7 +10,9 @@ export interface User {
     email: string;
     phone: string;
     photo?: string;
+    image?: string;
     password: string;
+    datetime: string;
     permission: Array<string>;
     role?: {
         name: string;

@@ -41,22 +41,27 @@ Route::middleware(['auth', 'verified', 'json'])->group(function () {
             Route::post('users', [UserController::class, 'index']);
             Route::post('users/store', [UserController::class, 'store']);
             Route::apiResource('users', UserController::class)
-                ->except(['index', 'store'])->scoped(['user' => 'uuid']);
+            ->except(['index', 'store'])->scoped(['user' => 'uuid']);
         });
-
+        
         Route::middleware('can:master-role')->group(function () {
             Route::get('roles', [RoleController::class, 'get'])->withoutMiddleware('can:master-role');
             Route::post('roles', [RoleController::class, 'index']);
             Route::post('roles/store', [RoleController::class, 'store']);
             Route::apiResource('roles', RoleController::class)
-                ->except(['index', 'store']);
+            ->except(['index', 'store']);
         });
     });
-
+    
     // Tiket Routes
-    Route::prefix('tiket')->group(function () {
-        Route::post('', [TiketController::class, 'store']); // Store a new tiket
-        Route::get('', [TiketController::class, 'index']); // Get list of tikets
-    }); // Menghapus karakter aneh di sini
+        Route::middleware('can:dashboard-tiket')->group(function () {
+            Route::get('tiket', [TiketController::class, 'get']);
+            Route::post('tiket', [TiketController::class, 'index']);
+            Route::post('tiket/store', [TiketController::class, 'store']);
+            Route::apiResource('tiket', TiketController::class)
+            ->except(['index', 'store'])->scoped(['tiket' => 'uuid']); // Menggunakan UUID sebagai parameter
+        });
+        
 });
+
 
