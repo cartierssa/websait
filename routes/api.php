@@ -18,8 +18,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Authentication Route
-Route::middleware(['auth', 'json'])->prefix('auth')->group(function () {
-    Route::post('login', [AuthController::class, 'login'])->withoutMiddleware('auth');
+Route::middleware(['json'])->prefix('auth')->group(function () {
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('register', [AuthController::class, 'register']); // Menambahkan route untuk register
+    Route::post('register/get/email/otp', [AuthController::class, 'registerGetEmailOtp']);
+    Route::post('register/check/email/otp', [AuthController::class, 'registerCheckEmailOtp']);
     Route::delete('logout', [AuthController::class, 'logout']);
     Route::get('me', [AuthController::class, 'me']);
 });

@@ -11,18 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('email_verifications', function (Blueprint $table) {
             $table->id();
-            $table->uuid()->unique();
-            $table->string('nama');
             $table->string('email')->unique();
-            $table->string('password');
-            $table->string('phone')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->boolean('confirmed')->default(0);
+            $table->char('otp', 6)->nullable();
+            $table->timestamp('otp_expired_at')->nullable();
             $table->timestamps();
         });
-        
     }
 
     /**
@@ -30,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('email_verifications');
     }
 };
