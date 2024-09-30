@@ -52,8 +52,8 @@
         "prismjs": "^1.25.0",
         "select2": "^4.1.0-rc.0",
         "socicon": "^3.0.5",
-        "sweetalert2": "11.4.8",
-        "vee-validate": "^4.5.11",
+        "sweetalert2": "^11.4.8",
+        "vee-validate": "^4.13.2",
         "vue": "^3.2.41",
         "vue-axios": "^3.5.0",
         "vue-currency-input": "^3.0.5",
@@ -68,7 +68,7 @@
         "vue3-otp-input": "^0.5.21",
         "vue3-select2-component": "^0.1.7",
         "vue3-toastify": "^0.1.14",
-        "yup": "^1.2.0",
+        "yup": "^1.4.0",
         "zustand": "^4.4.7"
     },
     "devDependencies": {

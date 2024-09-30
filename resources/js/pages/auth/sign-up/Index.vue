@@ -5,14 +5,18 @@
     <main class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework">
       <!--begin::Heading-->
       <div class="mb-10 text-center">
-        <router-link to="/">
-          <img :src="setting?.logo" alt="Custicket" class="w-250px mb-4" />
-        </router-link>
         <!--begin::Title-->
-        <h1 class="mb-3">
-          Daftar Akun <span class="text-primary">CUS-Ticket</span>
-        </h1>
+        <h1 class="text-gray-900 mb-3">Create an Account</h1>
         <!--end::Title-->
+
+        <!--begin::Link-->
+        <div class="text-gray-500 fw-semibold fs-4">
+          Already have an account?
+
+          <router-link to="sign-in" class="link-primary fw-bold">
+            Sign in here
+          </router-link>
+        </div>
       </div>
       <!--end::Heading-->
 
@@ -134,16 +138,6 @@
       </div>
 
       <div class="border-bottom border-gray-300 w-100 mt-5 mb-10"></div>
-
-      <!--begin::Link-->
-      <div class="text-gray-400 fw-semobold fs-4 text-center">
-        Sudah memiliki akun?
-
-        <router-link to="sign-in" class="link-primary fw-bold">
-          Masuk
-        </router-link>
-      </div>
-      <!--end::Link-->
     </main>
     <!--end::Form-->
   </div>
