@@ -8,6 +8,7 @@ import laravel from "laravel-vite-plugin";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
     process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
+    
 
     return {
         server: {
